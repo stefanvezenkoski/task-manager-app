@@ -1,6 +1,20 @@
+# backend
 .env
 venv
 __pycache__
 .DS_Store
 .vscode/
 tasks.db
+
+# frontend
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+.npm
+package-lock.json
+yarn.lock
+.env.local
+.env.*.local
