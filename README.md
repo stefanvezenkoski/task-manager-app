@@ -1,1 +1,1 @@
-# task-manager-app - DevOps Project
+Task Manager App - DevOps Project
