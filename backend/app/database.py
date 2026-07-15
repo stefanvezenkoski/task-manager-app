@@ -9,8 +9,10 @@ DATABASE_URL = os.getenv(
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Object-Relational Mapping osnova
 Base = declarative_base()
 
+#dependency inection koj dava db sesija na sekoj endpoint
 def get_db():
     db = SessionLocal()
 

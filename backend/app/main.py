@@ -23,8 +23,8 @@ def health_check():
     return {"status": "ok"}
 
 @app.get("/tasks", response_model=List[schemas.TaskOut])
-def list_tasks(db: Session = Depends(get_db)):
-    tasks = crud.get_tasks(db)
+def list_tasks(search: str = None, priority: str = None, db: Session = Depends(get_db)):
+    tasks = crud.get_tasks(db, search=search, priority=priority)
     return tasks
 
 @app.post("/tasks", response_model=schemas.TaskOut, status_code=201)
@@ -58,3 +58,8 @@ def delete_task(task_id: int, db: Session = Depends(get_db)):
     if not db_task:
         raise HTTPException(status_code=404, detail="Task not found")
     return db_task
+
+@app.get("/stats")
+def get_stats(db: Session = Depends(get_db)):
+    stats = crud.get_stats(db)
+    return stats

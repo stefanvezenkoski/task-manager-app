@@ -1,14 +1,26 @@
 from sqlalchemy.orm import Session
 
 from . import models, schemas
-def get_tasks(db: Session):
+def get_tasks(db: Session, search: str = None, priority: str = None):
+
+    if search:
+        query = db.filter(models.Task.title.ilike(f"%{search}%"))
+
+    if priority:
+        query = db.filter(models.Task.priority == priority)
+
     return db.query(models.Task).order_by(models.Task.id.desc()).all()
 
 def get_task(db: Session, task_id : int):
     return db.query(models.Task).filter(models.Task.id == task_id).first()
 
+def get_stats(db: Session):
+    total = db.query(models.Task).count()
+    completed = db.query(models.Task).filter(models.Task.completed == True).count()
+    return {"total": total, "completed": completed}
+
 def create_task(db: Session, task: schemas.TaskCreate):
-    db_task = models.Task(title=task.title, description=task.description)
+    db_task = models.Task(title=task.title, description=task.description, priority=task.priority, due_date=task.due_date)
     db.add(db_task)
     db.commit()
     db.refresh(db_task)
