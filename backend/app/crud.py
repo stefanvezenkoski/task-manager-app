@@ -17,7 +17,7 @@ def get_task(db: Session, task_id : int):
 def get_stats(db: Session):
     total = db.query(models.Task).count()
     completed = db.query(models.Task).filter(models.Task.completed == True).count()
-    return {"total": total, "completed": completed}
+    return {"total": total, "completed": completed, "remaining": total - completed, "completion_rate": (completed / total * 100) if total > 0 else 0}
 
 def create_task(db: Session, task: schemas.TaskCreate):
     db_task = models.Task(title=task.title, description=task.description, priority=task.priority, due_date=task.due_date)
