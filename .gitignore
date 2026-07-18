@@ -1,7 +1,10 @@
 # backend
 .env
-venv
-__pycache__
+.env.*
+venv/
+.venv/
+__pycache__/
+*.py[cod]
 .DS_Store
 .vscode/
 tasks.db
@@ -13,7 +16,7 @@ out/
 build/
 dist/
 *.tsbuildinfo
-.npm
+.npm/
 package-lock.json
 yarn.lock
 .env.local

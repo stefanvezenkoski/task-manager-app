@@ -1,10 +1,10 @@
-import enum as PyEnum
+import enum
 from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text, func, Enum
 # sqlalchemy ја преведува во SQL
 
 from .database import Base
 
-class PriorityEnum(str, PyEnum):
+class PriorityEnum(str, enum.Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"

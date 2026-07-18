@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from . import models, schemas, crud
+from app import models, schemas, crud
 from .database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
@@ -38,7 +38,7 @@ def get_task(task_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Task not found")
     return db_task
 
-@app.put("/tasks/{task_id}", response_model=schemas.TaskOut)
+@app.patch("/tasks/{task_id}", response_model=schemas.TaskOut)
 def update_task(task_id: int, task: schemas.TaskUpdate, db: Session = Depends(get_db)):
     db_task = crud.update_task(db, task_id, task)
     if not db_task:

@@ -4,6 +4,11 @@ from enum import Enum as PyEnum
 
 from pydantic import BaseModel, ConfigDict
 
+class PriorityEnum(str, PyEnum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+
 class TaskBase(BaseModel):
     title : str
     description : Optional[str] = None
@@ -26,8 +31,3 @@ class TaskOut(TaskBase):
     id: int
     completed:bool
     created_at: datetime
-
-class PriorityEnum(str, PyEnum):
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
