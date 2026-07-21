@@ -81,7 +81,7 @@ export const api = {
         return handleResponse<Task>(res);
     },
     getStats: async () => {
-        const res = await fetch(`${API_URL}/tasks/stats`);
+        const res = await fetch(`${API_URL}/stats`);
         return handleResponse<{
             total: number;
             completed: number;

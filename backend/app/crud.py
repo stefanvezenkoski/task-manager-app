@@ -1,15 +1,18 @@
+from re import search
+
 from sqlalchemy.orm import Session
 
 from . import models, schemas
 def get_tasks(db: Session, search: str = None, priority: str = None):
 
+    query = db.query(models.Task)
+
     if search:
-        query = db.filter(models.Task.title.ilike(f"%{search}%"))
-
+        query = query.filter(models.Task.title.ilike(f"%{search}%"))
     if priority:
-        query = db.filter(models.Task.priority == priority)
+        query = query.filter(models.Task.priority == priority)
 
-    return db.query(models.Task).order_by(models.Task.id.desc()).all()
+    return query.all()
 
 def get_task(db: Session, task_id : int):
     return db.query(models.Task).filter(models.Task.id == task_id).first()
