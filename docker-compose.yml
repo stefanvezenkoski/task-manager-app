@@ -10,9 +10,12 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
 
   backend:
     build: ./backend
+    image: ${DOCKERHUB_USERNAME}/task-manager-backend:latest
     container_name: backend
     ports:
       - "8000:8000"
@@ -24,6 +27,7 @@ services:
 
   frontend:
     build: ./frontend
+    image: ${DOCKERHUB_USERNAME}/task-manager-frontend:latest
     container_name: frontend
     ports:
       - "5173:5173"
@@ -31,6 +35,8 @@ services:
       VITE_API_URL: http://localhost:8000
     depends_on:
       - backend
+    restart: unless-stopped
+
 
 volumes:
   pgdata:
