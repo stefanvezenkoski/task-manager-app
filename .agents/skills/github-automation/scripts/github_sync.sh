@@ -14,8 +14,8 @@ elif [ "$ACTION" = "sync" ]; then
   fi
   echo "=== Staging changes ==="
   git add -A
-  echo "=== Committing changes with message: '$MSG' ==="
-  git commit -m "$MSG"
+  echo "=== Committing changes with message: '$MSG' (Author: Antigravity) ==="
+  git commit --author="Antigravity <antigravity-bot@users.noreply.github.com>" -m "$MSG"
   echo "=== Pushing to current branch ==="
   git push
 else
