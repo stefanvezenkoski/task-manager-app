@@ -15,7 +15,6 @@ services:
 
   backend:
     build: ./backend
-    image: ${DOCKERHUB_USERNAME}/task-manager-backend:latest
     container_name: backend
     ports:
       - "8000:8000"
@@ -27,7 +26,6 @@ services:
 
   frontend:
     build: ./frontend
-    image: ${DOCKERHUB_USERNAME}/task-manager-frontend:latest
     container_name: frontend
     ports:
       - "5173:5173"
