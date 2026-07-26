@@ -12,6 +12,17 @@ elif [ "$ACTION" = "sync" ]; then
   if [ -z "$MSG" ]; then
     MSG="update: automated commit"
   fi
+
+  # Run validation
+  if [ -f ".agents/skills/pre-commit-check/scripts/validate.sh" ]; then
+    echo "=== Running Pre-Commit Validation ==="
+    bash .agents/skills/pre-commit-check/scripts/validate.sh
+    if [ $? -ne 0 ]; then
+      echo "❌ Validation failed! Aborting sync."
+      exit 1
+    fi
+  fi
+
   echo "=== Staging changes ==="
   git add -A
   echo "=== Committing changes with message: '$MSG' (Author: Antigravity) ==="
