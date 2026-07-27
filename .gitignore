@@ -20,4 +20,5 @@ dist/
 yarn.lock
 .env.local
 .env.*.local
+.agents/*
 PROJECT_STRUCTURE.md
