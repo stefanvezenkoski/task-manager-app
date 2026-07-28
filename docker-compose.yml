@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
 
-  backend:
+  backend-service:
     build: ./backend
     container_name: backend
     ports:
@@ -25,14 +25,15 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
     container_name: frontend
     ports:
-      - "5173:5173"
-    environment:
-      VITE_API_URL: http://localhost:8000
+      - "5173:80"
     depends_on:
-      - backend
+      - backend-service
     restart: unless-stopped
 
 
