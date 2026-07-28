@@ -20,5 +20,8 @@ dist/
 yarn.lock
 .env.local
 .env.*.local
-.agents/*
 PROJECT_STRUCTURE.md
+
+# k8s
+k8s/postgres-secret.yaml
+k8s/backend-secret.yaml
