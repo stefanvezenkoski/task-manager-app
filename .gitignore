@@ -25,3 +25,6 @@ PROJECT_STRUCTURE.md
 # k8s
 k8s/postgres-secret.yaml
 k8s/backend-secret.yaml
+
+# cd
+actions-runner/
