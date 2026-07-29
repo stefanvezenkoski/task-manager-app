@@ -70,25 +70,27 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
  
-  deploy:
+deploy:
     name: Deploy to local k3d cluster
     needs: [build-and-push-backend, build-and-push-frontend]
     runs-on: self-hosted
     if: github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout код
         uses: actions/checkout@v4
- 
+
       - name: Restart deployments (повлекува нови :latest слики)
         run: |
           kubectl rollout restart deployment/backend -n task-manager
           kubectl rollout restart deployment/frontend -n task-manager
- 
+
       - name: Провери статус на rollout
         run: |
           kubectl rollout status deployment/backend -n task-manager --timeout=90s
           kubectl rollout status deployment/frontend -n task-manager --timeout=90s
- 
+
       - name: Финална проверка
         run: kubectl get pods -n task-manager
-
