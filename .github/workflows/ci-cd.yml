@@ -70,7 +70,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
  
-deploy:
+  deploy:
     name: Deploy to local k3d cluster
     needs: [build-and-push-backend, build-and-push-frontend]
     runs-on: self-hosted
