@@ -35,13 +35,16 @@ export const api = {
         skip?: number;
         limit?: number;
     }) => {
-        const url = new URL(`${API_URL}/tasks`);
-        if (params?.search) url.searchParams.append("search", params.search);
-        if (params?.priority) url.searchParams.append("priority", params.priority);
-        if (params?.skip) url.searchParams.append("skip", params.skip.toString());
-        if (params?.limit) url.searchParams.append("limit", params.limit.toString());
+        let url = `${API_URL}/tasks`;
+        const searchParams = new URLSearchParams();
+        if (params?.search) searchParams.append("search", params.search);
+        if (params?.priority) searchParams.append("priority", params.priority);
+        if (params?.skip) searchParams.append("skip", params.skip.toString());
+        if (params?.limit) searchParams.append("limit", params.limit.toString());
+        const qs = searchParams.toString();
+        if (qs) url += `?${qs}`;
         
-        const res = await fetch(url.toString());
+        const res = await fetch(url);
         return handleResponse<Task[]>(res);
     },
     getTask: async (id: number) => {
