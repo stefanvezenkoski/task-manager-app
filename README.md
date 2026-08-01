@@ -19,16 +19,11 @@ The app supports creating, viewing, updating, marking as complete, and deleting 
 
 The application is split into three independent services communicating over HTTP and SQL:
 
-```
-Client / Browser
-      |
-      | HTTP (port 80 in production behind Ingress, or 5173 for local Vite dev)
-      v
-Frontend (React + TypeScript + Vite)  --HTTP (REST API / JSON)-->  Backend (FastAPI + SQLAlchemy)  --SQL-->  Database (PostgreSQL)
-                                       <---------JSON Response---------                              <---Result sets---
-```
+![alt text](frontend/public/diagram-export-7-29-2026-4_53_37-AM.png)
 
 Every HTTP request passes through the Ingress controller (Traefik), which routes traffic to the matching Kubernetes Service, and from there to the pod running the app.
+
+![alt text](frontend/public/Picture1.png)
 
 ## Project Structure
 
