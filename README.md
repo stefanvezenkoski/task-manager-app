@@ -19,7 +19,7 @@ The app supports creating, viewing, updating, marking as complete, and deleting 
 
 The application is split into three independent services communicating over HTTP and SQL:
 
-![alt text](frontend/public/diagram-export-7-29-2026-4_53_37-AM.png)
+![alt text](frontend/public/full_arch.png)
 
 Every HTTP request passes through the Ingress controller (Traefik), which routes traffic to the matching Kubernetes Service, and from there to the pod running the app.
 
