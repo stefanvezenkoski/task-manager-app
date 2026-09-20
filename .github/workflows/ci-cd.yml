@@ -71,25 +71,26 @@ jobs:
           cache-to: type=gha,mode=max
  
   deploy:
-    name: Deploy to k3d cluster (Codespace runner)
+    name: Deploy to Azure k3s VM
     needs: [build-and-push-backend, build-and-push-frontend]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    defaults:
-      run:
-        shell: bash
     steps:
-      - name: Deploy immutable SHA tags
-        run: |
-          set -e
-          kubectl set image deployment/backend \
-            backend=${{ secrets.DOCKERHUB_USERNAME }}/task-manager-backend:${{ github.sha }} \
-            -n task-manager
-          kubectl set image deployment/frontend \
-            frontend=${{ secrets.DOCKERHUB_USERNAME }}/task-manager-frontend:${{ github.sha }} \
-            -n task-manager
-          kubectl rollout status deployment/backend  -n task-manager --timeout=180s
-          kubectl rollout status deployment/frontend -n task-manager --timeout=180s
-
-      - name: Final state
-        run: kubectl get pods,svc,ingress -n task-manager
+      - name: Deploy immutable SHA tags over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: azureuser
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+            kubectl set image deployment/backend \
+              backend=${{ secrets.DOCKERHUB_USERNAME }}/task-manager-backend:${{ github.sha }} \
+              -n task-manager
+            kubectl set image deployment/frontend \
+              frontend=${{ secrets.DOCKERHUB_USERNAME }}/task-manager-frontend:${{ github.sha }} \
+              -n task-manager
+            kubectl rollout status deployment/backend  -n task-manager --timeout=180s
+            kubectl rollout status deployment/frontend -n task-manager --timeout=180s
+            kubectl get pods -n task-manager
