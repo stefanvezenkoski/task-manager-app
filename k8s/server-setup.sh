@@ -13,6 +13,13 @@ if ! command -v k3s >/dev/null 2>&1; then
   # mode 644 za da moze i ne-root korisnik (azureuser) da vrti kubectl
   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode 644" sh -
 fi
+# k3s treba nekolku sekundi za node objektot da se pojavi;
+# 'kubectl wait --all' pagja vednas ako uste nema nisto sto odgovara
+echo "    cekam node da se pojavi..."
+for _ in $(seq 1 60); do
+  kubectl get nodes >/dev/null 2>&1 && break
+  sleep 2
+done
 kubectl wait --for=condition=Ready node --all --timeout=180s
 
 echo "==> 2/4  Generiranje na secrets (ne se vo git)"
